@@ -21,7 +21,6 @@ builder.Services.AddOpenTelemetry().ConfigureResource(resource => resource.AddSe
         .AddAspNetCoreInstrumentation()
         .AddConsoleExporter());
 
-
 // Add services to the container.
 builder.Services.AddProblemDetails(options =>
 {
@@ -60,7 +59,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.KnownNetworks.Clear();
     options.KnownProxies.Clear();
 });
-
+builder.Services.AddCache();
 builder.Services.AddApplication();
 builder.Services.AddDbContext(conString);
 

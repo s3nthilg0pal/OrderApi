@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Order.Application.Data;
+using Order.Infrastructure.Cache;
 using Order.Infrastructure.Data;
 
 namespace Order.Infrastructure;
@@ -20,5 +21,14 @@ public static class DependencyInjection
             provider.GetRequiredService<WideWorldImportersContext>());
         
         return services;
+    }
+
+    public static IServiceCollection AddCache(this IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddHybridCache();
+
+        serviceCollection.AddScoped<ICacheManager, CacheManager>();
+
+        return serviceCollection;
     }
 }
