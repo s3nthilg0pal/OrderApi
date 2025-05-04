@@ -14,6 +14,7 @@ public class GetCountryCountQueryHandler : IRequestHandler<GetCountryCountQuery,
     private readonly IApplicationDbContext _context;
     private readonly ICacheManager _cacheManager;
 
+
     public GetCountryCountQueryHandler(IApplicationDbContext context, ICacheManager cacheManager)
     {
         _context = context;
@@ -29,6 +30,7 @@ public class GetCountryCountQueryHandler : IRequestHandler<GetCountryCountQuery,
     private async ValueTask<List<CountryCountDto>> GetCountryCountAsync(CancellationToken cancellationToken)
     {
         var countryCount = await _context.StateProvinces
+            .AsNoTracking()
             .GroupBy(c => c.Country)
             .Select(c => new CountryCountDto
             {
