@@ -20,6 +20,15 @@ public class GetAllCustomerByCountryQueryHandler : IRequestHandler<GetAllCustome
     }
     public async Task<IEnumerable<Customer>> Handle(GetAllCustomerByCountryQuery request, CancellationToken cancellationToken)
     {
+
+        //1. Look for IQueryable/IEnumerable
+
+        //2. Watch out for Include
+        // 3. Pagination
+        //4. Cancelation token
+        //5.as no tracking
+        //6.getting all the columns
+        //7.Inefficient updates/deletes
         var customers = await _context.Countries
             .Include(x => x.StateProvinces)
             .ThenInclude(x => x.Cities)
@@ -29,6 +38,9 @@ public class GetAllCustomerByCountryQueryHandler : IRequestHandler<GetAllCustome
                 .SelectMany(x => x.CustomerDeliveryCities)
             ).FirstOrDefaultAsync(cancellationToken);
 
+        await _context.Colors.Where(x => x.ColorName == "test").ExecuteDeleteAsync(cancellationToken);
+        await _context.Colors.Where(x => x.ColorName == "tetste")
+            .ExecuteUpdateAsync(setts => setts.SetProperty(x => x.ColorName, "sadfsf"), cancellationToken);
         return customers;
     }
 }
